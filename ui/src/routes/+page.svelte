@@ -2,7 +2,7 @@
 import { base } from '$app/paths';
   import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { ZoomOut, ZoomIn, RotateCcw } from '@lucide/svelte';
+  import { ZoomOut, ZoomIn, RotateCcw, Eye, EyeOff } from '@lucide/svelte';
 
   let fractalCanvas;
   let overlayCanvas;
@@ -17,6 +17,7 @@ import { base } from '$app/paths';
   let maxIter = 256;
   let rendering = false;
   let renderTime = 0;
+  let overlayVisible = true;
 
   let fractalType = 0;
   let juliaParams = { re: -0.7, im: 0.27015 };
@@ -144,6 +145,8 @@ import { base } from '$app/paths';
   }
 
   function drawOverlay() {
+    if (!overlayVisible) return;
+
     const ctx = overlayCanvas?.getContext("2d");
     if (!ctx) return;
 
@@ -214,9 +217,19 @@ import { base } from '$app/paths';
       >
         <RotateCcw size={18} />
       </button>
+      <button
+          on:click={() => overlayVisible = !overlayVisible}
+          class:bg-gray-200!={!overlayVisible}
+        >
+          {#if overlayVisible}
+            <Eye size={18} />
+          {:else}
+            <EyeOff size={18} />
+          {/if}
+        </button>
     </div>
 
-    <div class="flex items-center gap-2 border-2 border-gray-800 bg-gray-50 px-2 py-1">
+    <div class="ml-auto flex items-center gap-2 border-2 border-gray-800 bg-gray-50 px-2 py-1">
       <select
         bind:value={fractalType}
         on:change={handleChange}
@@ -267,15 +280,17 @@ import { base } from '$app/paths';
 
   <div class="relative border-2 border-gray-800 bg-gray-900 overflow-hidden">
     <canvas bind:this={fractalCanvas} {width} {height} class="block touch-none"></canvas>
-    <canvas
-      bind:this={overlayCanvas}
-      {width}
-      {height}
-      class="absolute top-0 left-0 cursor-crosshair touch-none"
-      on:mousemove={onMouseMove}
-      on:wheel={onWheel}
-      on:click={onClick}
-    ></canvas>
+    {#if overlayVisible}
+        <canvas
+        bind:this={overlayCanvas}
+        {width}
+        {height}
+        class="absolute top-0 left-0 cursor-crosshair touch-none"
+        on:mousemove={onMouseMove}
+        on:wheel={onWheel}
+        on:click={onClick}
+        ></canvas>
+    {/if}
   </div>
 
   <div class="mt-2 flex flex-row text-sm font-mono text-gray-300 justify-between">
