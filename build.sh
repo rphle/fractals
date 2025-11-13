@@ -2,10 +2,9 @@
 
 cd rust/fractal
 
-# wasm-pack build --target web --release
 wasm-pack build --target web --dev
 
+cd ../../ui
 
-cd ../..
-
-cp -R rust/fractal/pkg/. ui/static/fractal
+cp -R ../rust/fractal/pkg/. static/fractal
+npm run build
