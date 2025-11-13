@@ -1,4 +1,5 @@
 <script>
+import { base } from '$app/paths';
   import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import { ZoomOut, ZoomIn, RotateCcw } from '@lucide/svelte';
@@ -25,8 +26,8 @@
 
   onMount(async () => {
     try {
-      const moduleUrl = "/fractal/fractal.js";
-      const wasmUrl = "/fractal/fractal_bg.wasm";
+      const moduleUrl = `${base}/fractal/fractal.js`;
+      const wasmUrl = `${base}/fractal/fractal_bg.wasm`;
 
       const wasmModule = await import(/* @vite-ignore */ moduleUrl);
       const wasmInstance = await wasmModule.default({
