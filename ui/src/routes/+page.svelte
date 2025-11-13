@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import { ZoomOut, ZoomIn, RotateCcw } from '@lucide/svelte';
 
@@ -36,11 +36,17 @@
       wasm = wasmInstance;
       renderer = wasmModule.FractalRenderer.new(width, height);
 
+      window.addEventListener("keydown", onKeyDown);
+
       render();
       drawOverlay();
     } catch (err) {
       console.error("Failed to load WASM:", err);
     }
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("keydown", onKeyDown);
   });
 
   function render() {
@@ -107,12 +113,33 @@
   };
 
   const handleChange = () => {
-      if (fractalType === 1) { // Julia default view
-         bounds = { xMin: -2.0, xMax: 2.0, yMin: -1.5, yMax: 1.5 };
-      } else {
-         bounds = { xMin: -2.5, xMax: 1.0, yMin: -1.25, yMax: 1.25 };
-      }
+    if (fractalType === 1) { // Julia default view
+      bounds = { xMin: -2.0, xMax: 2.0, yMin: -1.5, yMax: 1.5 };
+    } else {
+      bounds = { xMin: -2.5, xMax: 1.0, yMin: -1.25, yMax: 1.25 };
+    }
+    render();
+  };
+
+  function onKeyDown(e) {
+    const dx = bounds.xMax - bounds.xMin;
+    const dy = bounds.yMax - bounds.yMin;
+    const step = 0.1;
+
+    const keys = {
+      ArrowLeft: [-(dx * step), 0],
+      ArrowRight: [dx * step, 0],
+      ArrowUp: [0, dy * step],
+      ArrowDown: [0, -(dy * step)]
+    };
+
+    if (keys[e.key]) {
+      const [x, y] = keys[e.key];
+      [bounds.xMin, bounds.xMax].forEach(b => b += x);
+      [bounds.yMin, bounds.yMax].forEach(b => b += y);
+      e.preventDefault();
       render();
+    }
   }
 
   function drawOverlay() {
