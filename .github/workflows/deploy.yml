@@ -28,6 +28,9 @@ jobs:
           chmod +x build.sh
           ./build.sh
 
+      - run: |
+          tree ui/build
+
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
