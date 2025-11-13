@@ -14,6 +14,8 @@ jobs:
           toolchain: stable
           override: true
 
+      - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
       - uses: actions/setup-node@v3
         with:
           node-version: "22"
