@@ -1,10 +1,11 @@
 #!/bin/bash
+set -e
 
+# Build Rust WASM
 cd rust/fractal
+wasm-pack build --target web --dev --out-dir ../../ui/static/fractal
 
-wasm-pack build --target web --dev
-
+# Build Svelte UI
 cd ../../ui
-
-cp -R ../rust/fractal/pkg/. static/fractal
+npm install
 npm run build
