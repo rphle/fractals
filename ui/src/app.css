@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+
+html,
+body {
+    height: 100vh;
+    @apply bg-gray-100
+}
+
+button {
+    @apply flex aspect-square items-center justify-center border-2 border-gray-800 bg-gray-50 hover:bg-gray-200 active:translate-y-px cursor-pointer
+}
