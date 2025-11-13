@@ -1,3 +1,5 @@
+![](images/hero.png)
+
 Small project that generates and visualizes fractals. Rendering is done using Rust compiled to WebAssembly, the UI is built with Svelte.
 
 ### Running locally
