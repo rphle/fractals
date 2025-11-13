@@ -1,0 +1,15 @@
+{
+  "name": "fractal",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "fractal_bg.wasm",
+    "fractal.js",
+    "fractal.d.ts"
+  ],
+  "main": "fractal.js",
+  "types": "fractal.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
