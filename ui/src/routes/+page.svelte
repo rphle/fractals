@@ -277,12 +277,16 @@
     ></canvas>
   </div>
 
-  <div class="ml-auto mt-2">
-    {#if rendering}
-      <div class="text-sm font-mono uppercase font-bold text-gray-300">...</div>
-    {:else}
-      <div class="text-sm font-mono font-bold text-gray-300">{renderTime.toFixed(1)} ms</div>
-    {/if}
+  <div class="mt-2 flex flex-row text-sm font-mono text-gray-300 justify-between">
+    <a href="https://github.com/rphle/fractals" target="_blank"  class="underline uppercase hover:text-gray-400">Source</a>
+    <div class="uppercase ">Click to zoom | Scroll to change zoom level | Arrow keys to move</div>
+    <div>
+        {#if rendering}
+            ...
+        {:else}
+            {renderTime.toFixed(1)} ms
+        {/if}
+    </div>
   </div>
 
 </div>
