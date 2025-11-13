@@ -26,7 +26,7 @@ jobs:
 
       - run: |
           chmod +x build.sh
-          ./build.sh
+          IS_PAGES=1 ./build.sh
 
       - run: |
           tree ui/build
